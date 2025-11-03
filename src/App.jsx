@@ -5,46 +5,8 @@ import {
 } from 'react-router-dom'
 import axios from 'axios'
 
+import Kuva from './components/Kuva.jsx'
 import './App.css'
-
-
-
-const Navs = (props) => {
-  const {prev, next} = props;
-  
-  if (!prev && !next) {
-    return (
-      <div></div>
-    )
-  } 
-
-
-  if (!prev) {
-    return (
-      <div>
-        <Link to={`/kuvat/${next}`}> next </Link>  
-      </div>
-    )
-  } 
-  
-
-  if (!next) {
-    return (
-      <div>
-        <Link to={`/kuvat/${prev}`}> prev </Link>  
-      </div>
-    )
-  } 
-
-  return (
-    <div>
-      <Link to={`/kuvat/${prev}`}> prev </Link>  
-      <Link to={`/kuvat/${next}`}> next </Link>  
-    </div>
-  )
-}
-
-
 
 
 
@@ -55,50 +17,13 @@ const Kuvat = ({kuvat}) => {
       <div>
         {kuvat.map(kuva => 
           <span key={kuva.id}>            
-            <Link to={`/kuvat/${kuva.id}`}> <img src={kuva.thumb} alt={kuva.alt}/> </Link>
-            
+            <Link to={`/kuvat/${kuva.id}`}> <img src={kuva.thumb} alt={kuva.alt}/> </Link>            
           </span>
         )}
       </div>
     </div>
   )
-
 }
-
-
-const Kuva = ({kuvat}) => {
-  const id = useParams().id;
-  const kuva = kuvat.find(n => n.id === Number(id));
-
-  const index = kuvat.indexOf(kuva);  
-  let prev = false;
-  let next = false;
-
-
-  if (index > 0) {
-    prev = kuvat[index-1].id;
-  }
-
-  if (index < kuvat.length-1) {
-    next = kuvat[index+1].id;  
-  }
-
-
-  return (
-    <div>
-      <Link to="/kuvat">Show all</Link>
-
-      <p><img src={kuva.url}/></p>
-      <ul>
-        <li>Album: {kuva.album}</li>
-        <li>Name: {kuva.name}</li>
-      </ul>
-    <Navs prev={prev} next={next}/>
-    </div>
-
-  )
-}
-
 
 
 
@@ -108,7 +33,6 @@ const Home = () => {
       <div>
         <h1></h1>
         <Link to="/kuvat">Kuvat</Link>
-
       </div>
     </>
   )
@@ -121,7 +45,7 @@ const App = () => {
   const [kuvat, setKuvat] = useState([]); 
   
   useEffect(() => {
-    axios.get('http://localhost:3001/kuvalista').then(response => {
+    axios.get('http://localhost:3001/kuvalista2').then(response => {
       setKuvat(response.data);
     });
         
